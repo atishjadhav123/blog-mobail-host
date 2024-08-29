@@ -3,17 +3,17 @@ const mongoose = require("mongoose")
 const cors = require("cors")
 const { httpServer, app } = require("./socket/socket")
 require("dotenv").config()
-
+const path = require("path")
 // const app = express()
 app.use(express.json())
 app.use(cors())
-
+app.use(express.static("dist"))
 //routes
 app.use("/api/blogs", require("./routes/blog.routes"))
 
 //404   
 app.use("*", (req, res) => {
-    res.status(400).json({ message: "Resorce not found" })
+    res.sendFile(path.join(__dirname, "dist", "index.html"))
 })
 //Error handler
 app.use((err, req, res, next) => {
